@@ -21,7 +21,6 @@ function getApiInfo() {
     .then (response => response.json())
     .then (data => {
         series = data;
-        console.log(series);
         renderSeries(series);
     });   
 }
@@ -63,9 +62,12 @@ function readLocalStorage () {
         return localInfo = []
     }
 }
-
-function selectSerie () {
-    
+// Con esta función guardamos el Local Storage la serie que seleccionamos haciendo click en ella
+function selectSerie (event) {
+    const selected = event.currentTarget.id;
+    selectedSeries.push(selected);
+    setLocalStorage();
+    renderFavourites(selectedSeries);
 }
 
 
