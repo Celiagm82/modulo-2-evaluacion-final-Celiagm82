@@ -7,6 +7,12 @@
 
     .hero {
         width: 70%;
+        
+        .series-list {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
     }
 
     .fav-aside {
