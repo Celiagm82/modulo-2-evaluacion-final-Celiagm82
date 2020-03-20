@@ -30,9 +30,9 @@ function renderSeries (seriesArr) {
     for (let item of seriesArr) {
         if (item.show.image !== null) {
         seriesList.innerHTML += `<li id=${item.show.id} class='list-elem'><div class='img-container'><p>${item.show.name}</p><img src=${item.show.image.medium} alt='portada serie' title='Image serie'></div></li>`
-        } else {seriesList.innerHTML += `<li id=${item.show.id}><div class='img-container'><p>${item.show.name}</p><img src=${imgAvatar} alt='portada serie' title='Image default'></div></li>`;
-        addLiListeners();
+        } else {seriesList.innerHTML += `<li id=${item.show.id} class='list-elem'><div class='img-container'><p>${item.show.name}</p><img src=${imgAvatar} alt='portada serie' title='Image default'></div></li>`;
         }
+    addLiListeners();  
     }   
 }
 
@@ -63,12 +63,32 @@ function readLocalStorage () {
     }
 }
 // Con esta función guardamos el Local Storage la serie que seleccionamos haciendo click en ella
-function selectSerie (event) {
-    const selected = event.currentTarget.id;
+function selectSerie (evt) {
+    const selected = evt.currentTarget.id;
     selectedSeries.push(selected);
     setLocalStorage();
-    renderFavourites(selectedSeries);
+    renderFav(selectedSeries);
+}
+
+// Me devuelve el objeto de LS que pertenece a ese identificador 
+function getSerieObject (idSerie) {
+    for(let serie of series){
+        if(serie.show.id === parseInt(idSerie)){
+          return serie;
+        }
+    }
+}
+// Función para ìntar lista de favoritos
+function renderFav (selectedSeries) {
+    favList.innerHTML = '';
+    for(let fav of selectedSeries) {
+        let object = getSerieObject(fav);
+        if(object) {
+            favList.innerHTML += `<li id=${object.show.id}><span>${object.show.name}</span><button type='button'>x</button></li>`;
+        }
+    }
 }
 
 
 searchButton.addEventListener('click', getApiInfo);
+
