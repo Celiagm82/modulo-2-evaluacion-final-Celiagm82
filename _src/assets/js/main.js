@@ -22,11 +22,13 @@ function getApiInfo() {
     .then (data => {
         series = data;
         renderSeries(series);
-    });   
+        renderFav(selectedSeries);
+    })
 }
 
 // Pinto las series que me traigo de la API con mi búsqueda
 function renderSeries (seriesArr) {
+    seriesList.innerHTML = '';
     for (let item of seriesArr) {
         if (item.show.image !== null) {
         seriesList.innerHTML += `<li id=${item.show.id} class='list-elem'><div class='img-container'><p>${item.show.name}</p><img src=${item.show.image.medium} alt='portada serie' title='Image serie'></div></li>`
@@ -62,23 +64,31 @@ function readLocalStorage () {
         return localInfo = []
     }
 }
-// Con esta función guardamos el Local Storage la serie que seleccionamos haciendo click en ella
+// Con esta función guardamos en Local Storage la serie que seleccionamos haciendo click en ella
 function selectSerie (evt) {
+    let chosen = evt.currentTarget;
+    chosen.classList.add('favourite');
     const selected = evt.currentTarget.id;
+    if (selectedSeries.indexOf(selected) === -1) {
     selectedSeries.push(selected);
     setLocalStorage();
     renderFav(selectedSeries);
+    } else {
+        alert('Esa serie ya está en favoritos')
+    }
 }
 
 // Me devuelve el objeto de LS que pertenece a ese identificador 
 function getSerieObject (idSerie) {
-    for(let serie of series){
-        if(serie.show.id === parseInt(idSerie)){
+    for(let serie of series) {
+        if(serie.show.id === parseInt(idSerie)) {
           return serie;
         }
     }
 }
-// Función para ìntar lista de favoritos
+
+
+// Función para pintar lista de favoritos
 function renderFav (selectedSeries) {
     favList.innerHTML = '';
     for(let fav of selectedSeries) {
