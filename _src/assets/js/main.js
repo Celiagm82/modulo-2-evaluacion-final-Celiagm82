@@ -90,14 +90,26 @@ function getSerieObject (idSerie) {
 
 // Función para pintar lista de favoritos
 function renderFav (selectedSeries) {
-    favList.innerHTML = '';
+    // favList.innerHTML = '';
     for(let fav of selectedSeries) {
         let object = getSerieObject(fav);
-        if(object) {
-            favList.innerHTML += `<li id=${object.show.id}><span>${object.show.name}</span><button type='button'>x</button></li>`;
+        if(object.show.image !== null) {
+            favList.innerHTML += `<li id=${object.show.id}><img src=${object.show.image.medium}><span>${object.show.name}</span><button type='button'>x</button></li>`
+        } else {
+            favList.innerHTML += `<li id=${object.show.id}><img src=${imgAvatar}><span>${object.show.name}</span><button type='button'>x</button></li>`
         }
     }
 }
+
+// function removeMovie(evt){
+//     const elemId = evt.currentTarget.parentElement.id;
+//     const elemIndex = selectedSeries.indexOf(elemId);
+//     selectedSeries.splice(elemIndex,1);
+//     //vulevo a setear localstorage
+//     setLocalStorage();
+//     //vuelvo a repintar favoritos
+//     renderFavourites(selectedSeries);
+// }
 
 
 searchButton.addEventListener('click', getApiInfo);
