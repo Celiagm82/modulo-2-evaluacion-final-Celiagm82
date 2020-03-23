@@ -1,9 +1,14 @@
 .main-container {
+    margin-top: 25px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
     text-align: center;
     height: 80%;
+
+    h2 {
+        font-size: 30px;
+    }
 
     .hero {
         width: 70%;
@@ -12,12 +17,44 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
+            padding-top: 10px;
+
+            li {
+                padding: 5px;
+            }
         }
     }
 
     .fav-aside {
         width: 30%;
+        text-align: start;
+        margin-left: 20px;
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        li {
+            span {
+                padding: 0 10px;
+            }
+
+            img {
+                width: 60px;
+                height: 80px;
+                margin-bottom: 5px;
+            }
+
+            button {
+                height: 20px;
+                width: 20px;
+                border-radius: 100px;
+                font-size: 14px;
+                border-color: grey;
+            }
+        }
     }
+
 }
 
 .favourite {

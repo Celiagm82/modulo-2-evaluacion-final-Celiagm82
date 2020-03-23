@@ -2,8 +2,11 @@
 @import 'layouts/header';
 @import 'layouts/hero';
 
-// body {
-// 	background: url('../images/logo-adalab-80px.png') center center no-repeat $color-white;
-// 	margin: 0;
-// 	height: 100vh;
-// }
+body {
+    background: url('../images/popcorn.jpg') center center no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: 'Spicy Rice', cursive;
+}

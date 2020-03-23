@@ -22,7 +22,6 @@ function getApiInfo() {
     .then (data => {
         series = data;
         renderSeries(series);
-        renderFav(selectedSeries);
     })
 }
 
@@ -69,8 +68,9 @@ function selectSerie (evt) {
     let chosen = evt.currentTarget;
     chosen.classList.add('favourite');
     const selected = evt.currentTarget.id;
+    const object = getSerieObject(selected);
     if (selectedSeries.indexOf(selected) === -1) {
-    selectedSeries.push(selected);
+    selectedSeries.push(object.show);
     setLocalStorage();
     renderFav(selectedSeries);
     } else {
@@ -90,27 +90,37 @@ function getSerieObject (idSerie) {
 
 // Función para pintar lista de favoritos
 function renderFav (selectedSeries) {
-    // favList.innerHTML = '';
+    favList.innerHTML = '';
     for(let fav of selectedSeries) {
-        let object = getSerieObject(fav);
-        if(object.show.image !== null) {
-            favList.innerHTML += `<li id=${object.show.id}><img src=${object.show.image.medium}><span>${object.show.name}</span><button type='button'>x</button></li>`
+        if(fav.image !== null) {
+            favList.innerHTML += `<li id=${fav.id}><img src=${fav.image.medium}><span>${fav.name}</span><button type='button' class='delete-btn'>x</button></li>`
         } else {
-            favList.innerHTML += `<li id=${object.show.id}><img src=${imgAvatar}><span>${object.show.name}</span><button type='button'>x</button></li>`
+            favList.innerHTML += `<li id=${fav.id}><img src=${imgAvatar}><span>${fav.name}</span><button type='button' class='delete-btn'>x</button></li>`
         }
+    // addFavouriteListeners();
     }
 }
 
-// function removeMovie(evt){
+// function addFavouriteListeners () {
+//     const deleteButton = document.querySelectorAll('.delete-btn');
+//     for(let button of deleteButton) {
+//         button.addEventListener('click', removeSerie);
+//     }
+// }
+
+// function removeSerie(evt){
 //     const elemId = evt.currentTarget.parentElement.id;
 //     const elemIndex = selectedSeries.indexOf(elemId);
 //     selectedSeries.splice(elemIndex,1);
 //     //vulevo a setear localstorage
 //     setLocalStorage();
 //     //vuelvo a repintar favoritos
-//     renderFavourites(selectedSeries);
+//     renderFav(selectedSeries);
 // }
+// ESTA FUNCIÓN NO FUNCIONA BIEN
 
 
+
+renderFav(selectedSeries);
 searchButton.addEventListener('click', getApiInfo);
 
