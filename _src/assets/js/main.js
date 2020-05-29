@@ -5,13 +5,14 @@ const seriesInput = document.querySelector('#series-input');
 const searchButton = document.querySelector('#search-button');
 const seriesList = document.querySelector('.series-list');
 const favList = document.querySelector('.fav-list');
+const deleteAll = document.querySelector('.delete-all');
 
 let series = null;
 
 const imgAvatar = 'https://via.placeholder.com/210x295/';
 
 // En esta constante guardamos las series que seleccionamos
-const selectedSeries = readLocalStorage();
+let selectedSeries = readLocalStorage();
 
 
 // Me traigo los datos de la API
@@ -63,20 +64,7 @@ function readLocalStorage () {
         return localInfo = []
     }
 }
-// Con esta función guardamos en Local Storage la serie que seleccionamos haciendo click en ella
-function selectSerie (evt) {
-    let chosen = evt.currentTarget;
-    chosen.classList.add('favourite');
-    const selected = evt.currentTarget.id;
-    const object = getSerieObject(selected);
-    if (selectedSeries.indexOf(selected) === -1) {
-    selectedSeries.push(object.show);
-    setLocalStorage();
-    renderFav(selectedSeries);
-    } else {
-        alert('Esa serie ya está en favoritos')
-    }
-}
+
 
 // Me devuelve el objeto de LS que pertenece a ese identificador 
 function getSerieObject (idSerie) {
@@ -88,39 +76,81 @@ function getSerieObject (idSerie) {
 }
 
 
+// Con esta función guardamos en Local Storage la serie que seleccionamos haciendo click en ella
+function selectSerie (evt) {
+    let chosen = evt.currentTarget;
+    chosen.classList.add('favourite');
+    const selected = evt.currentTarget.id;
+    const object = getSerieObject(selected);
+    const findSerie = selectedSeries.find(serie => parseInt(serie.id) === parseInt(selected));
+    if (findSerie === null || findSerie === undefined) {
+        selectedSeries.push(object.show);
+        setLocalStorage(selectedSeries);
+        renderFav(selectedSeries);
+    } else {
+        alert('Esta serie ya está en favoritos')
+    }
+}
+
+
 // Función para pintar lista de favoritos
 function renderFav (selectedSeries) {
     favList.innerHTML = '';
     for(let fav of selectedSeries) {
         if(fav.image !== null) {
-            favList.innerHTML += `<li id=${fav.id}><img src=${fav.image.medium}><span>${fav.name}</span><button type='button' class='delete-btn'>x</button></li>`
+            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${fav.image.medium}><span>${fav.name}</span><button type='button' class='delete-btn'>x</button></li>`
         } else {
-            favList.innerHTML += `<li id=${fav.id}><img src=${imgAvatar}><span>${fav.name}</span><button type='button' class='delete-btn'>x</button></li>`
+            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${imgAvatar}><span>${fav.name}</span><button type='button' class='delete-btn'>x</button></li>`
         }
-    // addFavouriteListeners();
+    addFavouriteListeners();
     }
 }
 
-// function addFavouriteListeners () {
-//     const deleteButton = document.querySelectorAll('.delete-btn');
-//     for(let button of deleteButton) {
-//         button.addEventListener('click', removeSerie);
-//     }
-// }
+// Añadir listener a los botones de borrar favoritos
+function addFavouriteListeners () {
+    const deleteButton = document.querySelectorAll('.delete-btn');
+    for(let button of deleteButton) {
+        button.addEventListener('click', removeSerie);
+    }
+}
 
-// function removeSerie(evt){
-//     const elemId = evt.currentTarget.parentElement.id;
-//     const elemIndex = selectedSeries.indexOf(elemId);
-//     selectedSeries.splice(elemIndex,1);
-//     //vulevo a setear localstorage
-//     setLocalStorage();
-//     //vuelvo a repintar favoritos
-//     renderFav(selectedSeries);
-// }
-// ESTA FUNCIÓN NO FUNCIONA BIEN
+// Borrar serie seleccionada de favoritos
+function removeSerie(evt){
+    const elemId = evt.currentTarget.parentElement.id;
+    const findElem = selectedSeries.find(serie => parseInt(serie.id) === parseInt(elemId));
+    const favElem = selectedSeries.indexOf(findElem);
+    selectedSeries.splice(favElem,1);
+    //vulevo a setear localstorage
+    setLocalStorage();
+    //vuelvo a repintar favoritos
+    renderFav(selectedSeries);
+    const element = document.getElementById(elemId);
+    element.classList.remove('favourite');
+}
+
+// Función para realizar la búsqueda con Enter
+function searchEnter (event) {
+    if(event.keyCode === 13) {
+        getApiInfo();
+    }
+}
+
+// Borra todos los favoritos a la vez
+function removeAllFav () {
+    const listElem = document.querySelectorAll('.list-elem');
+    for (let item of listElem) {
+        item.classList.remove('favourite');
+    }
+    localStorage.removeItem('serieInfo');
+    favList.innerHTML = '';
+    selectedSeries = [];
+}
 
 
-
-renderFav(selectedSeries);
 searchButton.addEventListener('click', getApiInfo);
 
+renderFav(selectedSeries);
+
+seriesInput.addEventListener('keyup', searchEnter);
+
+deleteAll.addEventListener('click', removeAllFav);

@@ -4,7 +4,7 @@
     flex-direction: row-reverse;
     justify-content: center;
     text-align: center;
-    height: 80%;
+    height: 100%;
 
     h2 {
         font-size: 30px;
@@ -12,6 +12,7 @@
 
     .hero {
         width: 70%;
+        // height: 100%;
         
         .series-list {
             display: flex;
@@ -31,6 +32,11 @@
         margin-left: 20px;
 
         h2 {
+            margin-bottom: 20px;
+        }
+
+        .delete-all {
+            padding: 3px;
             margin-bottom: 20px;
         }
 
