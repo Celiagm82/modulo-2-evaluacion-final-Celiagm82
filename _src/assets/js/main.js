@@ -98,9 +98,9 @@ function renderFav (selectedSeries) {
     favList.innerHTML = '';
     for(let fav of selectedSeries) {
         if(fav.image !== null) {
-            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${fav.image.medium}><span>${fav.name}</span><button type='button' class='delete-btn'>x</button></li>`
+            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${fav.image.medium}><p>${fav.name}</p><button type='button' class='delete-btn'>x</button></li>`
         } else {
-            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${imgAvatar}><span>${fav.name}</span><button type='button' class='delete-btn'>x</button></li>`
+            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${imgAvatar}><p>${fav.name}</p><button type='button' class='delete-btn'>x</button></li>`
         }
     addFavouriteListeners();
     }
