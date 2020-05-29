@@ -31,8 +31,8 @@ function renderSeries (seriesArr) {
     seriesList.innerHTML = '';
     for (let item of seriesArr) {
         if (item.show.image !== null) {
-        seriesList.innerHTML += `<li id=${item.show.id} class='list-elem'><div class='img-container'><p>${item.show.name}</p><img src=${item.show.image.medium} alt='portada serie' title='Image serie'></div></li>`
-        } else {seriesList.innerHTML += `<li id=${item.show.id} class='list-elem'><div class='img-container'><p>${item.show.name}</p><img src=${imgAvatar} alt='portada serie' title='Image default'></div></li>`;
+        seriesList.innerHTML += `<li id=${item.show.id} class='list-elem'><div class='img-container'><p><a href="${item.show.url}" title="Ver ficha" aria-label="Ver ficha" target="_blank">${item.show.name}</a></p><img src=${item.show.image.medium} alt='portada serie' title='Image serie'></div></li>`
+        } else {seriesList.innerHTML += `<li id=${item.show.id} class='list-elem'><div class='img-container'><p><a href="${item.show.url}" title="Ver ficha" aria-label="Ver ficha" target="_blank">${item.show.name}</a></p><img src=${imgAvatar} alt='portada serie' title='Image default'></div></li>`;
         }
     addLiListeners();  
     }   
@@ -98,9 +98,9 @@ function renderFav (selectedSeries) {
     favList.innerHTML = '';
     for(let fav of selectedSeries) {
         if(fav.image !== null) {
-            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${fav.image.medium}><p>${fav.name}</p><button type='button' class='delete-btn'>x</button></li>`
+            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${fav.image.medium}><p><a href="${fav.url}" title="Ver ficha" aria-label="Ver ficha" target="_blank">${fav.name}</a></p><button type='button' class='delete-btn'>x</button></li>`
         } else {
-            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${imgAvatar}><p>${fav.name}</p><button type='button' class='delete-btn'>x</button></li>`
+            favList.innerHTML += `<li id=${fav.id} class='list'><img src=${imgAvatar}><p><a href="${fav.url}" title="Ver ficha" aria-label="Ver ficha" target="_blank">${fav.name}</a></p><button type='button' class='delete-btn'>x</button></li>`
         }
     addFavouriteListeners();
     }
